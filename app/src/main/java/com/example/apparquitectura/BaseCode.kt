@@ -4,6 +4,7 @@ package com.example.apparquitectura
 *
 *
 * MainActivity.kt
+*
 val rvCoupons: RecyclerView = findViewById(R.id.rvCoupons)
 rvCoupons.layoutManager = LinearLayoutManager(this)
 val coupons = ArrayList<Coupon>()
@@ -32,7 +33,7 @@ call.enqueue(object : Callback<JsonObject> {
 })
 
 
-val apiKey = "69d1837829128f9565368ca704c63207"
+val apiKey = "723673372a1801350816b58952fd698f"
 val urlApi = "http://feed.linkmydeals.com/"
 
 fun getClientService(): ApiService {

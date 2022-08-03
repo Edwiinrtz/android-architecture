@@ -1,28 +1,21 @@
-package com.example.apparquitectura
+package com.example.apparquitectura.model.repository
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.apparquitectura.R
 import com.example.apparquitectura.model.ApiAdarter
+import com.example.apparquitectura.model.Coupon
+import com.example.apparquitectura.presenter.CouponsPresenter
+import com.example.apparquitectura.view.RecyclerCouponsAdapter
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        supportActionBar?.hide()
+class CouponsRepositoryImpl (var couponsPresenter: CouponsPresenter): CouponsRepository {
 
-        //view
-        val rvCoupons: RecyclerView = findViewById(R.id.rvCoupons)
-        rvCoupons.layoutManager = LinearLayoutManager(this)
-        val coupons = ArrayList<Coupon>()
-
+    private var coupons = ArrayList<Coupon>()
+    override fun getCouponsAPI() {
         //controller
         val apiAdapter = ApiAdarter()
         val apiService = apiAdapter.getClientService()
@@ -39,11 +32,16 @@ class MainActivity : AppCompatActivity() {
                 offersJsonArray?.forEach { jsonElement: JsonElement ->
                     var jsonObject = jsonElement.asJsonObject
                     var coupon = Coupon(jsonObject)
-                    coupons.add(coupon)
+                    if(coupon.image_url.isNotEmpty()) {
+                        coupons.add(coupon)
+                    }
                 }
-                rvCoupons.adapter = RecyclerCouponsAdapter(coupons, R.layout.card_coupon)
+                couponsPresenter.showCoupons(coupons)
+
+                //
             }
         })
+
     }
 
 }

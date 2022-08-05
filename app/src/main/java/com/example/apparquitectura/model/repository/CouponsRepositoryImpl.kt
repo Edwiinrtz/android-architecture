@@ -1,18 +1,15 @@
 package com.example.apparquitectura.model.repository
 
 import android.util.Log
-import com.example.apparquitectura.R
 import com.example.apparquitectura.model.ApiAdarter
 import com.example.apparquitectura.model.Coupon
-import com.example.apparquitectura.presenter.CouponsPresenter
-import com.example.apparquitectura.view.RecyclerCouponsAdapter
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CouponsRepositoryImpl (var couponsPresenter: CouponsPresenter): CouponsRepository {
+class CouponsRepositoryImpl() : CouponsRepository {
 
     private var coupons = ArrayList<Coupon>()
     override fun getCouponsAPI() {
@@ -32,11 +29,11 @@ class CouponsRepositoryImpl (var couponsPresenter: CouponsPresenter): CouponsRep
                 offersJsonArray?.forEach { jsonElement: JsonElement ->
                     var jsonObject = jsonElement.asJsonObject
                     var coupon = Coupon(jsonObject)
-                    if(coupon.image_url.isNotEmpty()) {
+                    if (coupon.image_url.isNotEmpty()) {
                         coupons.add(coupon)
                     }
                 }
-                couponsPresenter.showCoupons(coupons)
+                //couponsPresenter.showCoupons(coupons)
 
                 //
             }
